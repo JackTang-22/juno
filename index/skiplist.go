@@ -214,7 +214,7 @@ func (slIterator *SkipListIterator) Next() interface{} {
 	}
 	//fmt.Println(slIterator.length)
 	slIterator.index++
-	v := slIterator.elementNode.next[0].value
+	v := slIterator.elementNode.next[0].key
 	slIterator.elementNode.next[0] = slIterator.elementNode.next[0].next[0]
 	return v
 

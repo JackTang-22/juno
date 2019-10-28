@@ -22,26 +22,6 @@ import "C"
  * @Description:
  */
 
-func (skipList *SkipList) PrintSkipList() {
-
-	fmt.Println("\nSkipList-------------------------------------------")
-	for i := DEFAULT_MAX_LEVEL - 1; i >= 0; i-- {
-
-		fmt.Println("level:", i)
-		node := skipList.elementNode.next[i]
-		for {
-			if node != nil {
-				fmt.Printf("%d ", node.key)
-				node = node.next[i]
-			} else {
-				break
-			}
-		}
-		fmt.Println("\n--------------------------------------------------------")
-	} //end for
-
-	fmt.Println("Current MaxLevel:", skipList.level)
-}
 
 func main() {
 	// fmt.Println(C.test())
@@ -56,68 +36,81 @@ func main() {
 
 	sl := NewSKipListIterator(DEFAULT_MAX_LEVEL, Int)
 	t1 := time.Now()
-	for i := 0; i < 15000000; i++ {
-		sl.Add(int(C.test()), i)
+	for i := 0; i < 100; i++ {
+		sl.Add(i, i)
 		//	fmt.Println(sl.level)
 	}
 	fmt.Println(time.Since(t1))
     fmt.Println(sl.GetGE(10000))
-
+	for sl.HasNext() {
+		fmt.Printf("%d ", sl.Next())
+	}
 	fmt.Println()
 
-	for j := 0; j < 10; j++ {
-		t := time.Now()
-		for i := 0; i < 15000; i++ {
-			sl.GetK(int(C.test()))
-		}
-		fmt.Println(time.Since(t))
-	}
+	fmt.Println(sl.GetGE(46))
+	sl.Del(46)
+	sl.Del(77)
+	fmt.Println(sl.GetGE(46))
+	fmt.Println(sl.GetGE(77))
+	fmt.Println(sl.GetGE(78))
+	fmt.Println(sl.GetGE(37))
 
-	fmt.Println()
-
-	for j := 0; j < 10; j++ {
-		t := time.Now()
-		for i := 0; i < 100000; i++ {
-			sl.GetK(int(C.test()))
-		}
-		fmt.Println(time.Since(t))
-	}
-
-	fmt.Println()
-	for j := 0; j < 10; j++ {
-		t := time.Now()
-		for i := 0; i < 200000; i++ {
-			sl.GetK(int(C.test()))
-		}
-		fmt.Println(time.Since(t))
-	}
-
-	fmt.Println()
-	for j := 0; j < 10; j++ {
-		t := time.Now()
-		for i := 0; i < 300000; i++ {
-			sl.GetK(int(C.test()))
-		}
-		fmt.Println(time.Since(t))
-	}
-
-	fmt.Println()
-	for j := 0; j < 10; j++ {
-		t := time.Now()
-		for i := 0; i < 400000; i++ {
-			sl.GetK(int(C.test()))
-		}
-		fmt.Println(time.Since(t))
-	}
-
-	fmt.Println()
-	for j := 0; j < 10; j++ {
-		t := time.Now()
-		for i := 0; i < 400000; i++ {
-			sl.GetK(int(C.test()))
-		}
-		fmt.Println(time.Since(t))
-	}
+	//
+	//fmt.Println()
+	//
+	//for j := 0; j < 10; j++ {
+	//	t := time.Now()
+	//	for i := 0; i < 15000; i++ {
+	//		sl.GetK(int(C.test()))
+	//	}
+	//	fmt.Println(time.Since(t))
+	//}
+	//
+	//fmt.Println()
+	//
+	//for j := 0; j < 10; j++ {
+	//	t := time.Now()
+	//	for i := 0; i < 100000; i++ {
+	//		sl.GetK(int(C.test()))
+	//	}
+	//	fmt.Println(time.Since(t))
+	//}
+	//
+	//fmt.Println()
+	//for j := 0; j < 10; j++ {
+	//	t := time.Now()
+	//	for i := 0; i < 200000; i++ {
+	//		sl.GetK(int(C.test()))
+	//	}
+	//	fmt.Println(time.Since(t))
+	//}
+	//
+	//fmt.Println()
+	//for j := 0; j < 10; j++ {
+	//	t := time.Now()
+	//	for i := 0; i < 300000; i++ {
+	//		sl.GetK(int(C.test()))
+	//	}
+	//	fmt.Println(time.Since(t))
+	//}
+	//
+	//fmt.Println()
+	//for j := 0; j < 10; j++ {
+	//	t := time.Now()
+	//	for i := 0; i < 400000; i++ {
+	//		sl.GetK(int(C.test()))
+	//	}
+	//	fmt.Println(time.Since(t))
+	//}
+	//
+	//fmt.Println()
+	//for j := 0; j < 10; j++ {
+	//	t := time.Now()
+	//	for i := 0; i < 400000; i++ {
+	//		sl.GetK(int(C.test()))
+	//	}
+	//	fmt.Println(time.Since(t))
+	//}
 
 	//fmt.Println()
 	//fmt.Println(sl.Len())
