@@ -56,12 +56,22 @@ func main() {
 
 	sl := NewSKipListIterator(DEFAULT_MAX_LEVEL, Int)
 	t1 := time.Now()
-	for i := 0; i < 10000000; i++ {
+	for i := 0; i < 15000000; i++ {
 		sl.Add(int(C.test()), i)
 		//	fmt.Println(sl.level)
 	}
 	fmt.Println(time.Since(t1))
     fmt.Println(sl.GetGE(10000))
+
+	fmt.Println()
+
+	for j := 0; j < 10; j++ {
+		t := time.Now()
+		for i := 0; i < 15000; i++ {
+			sl.GetK(int(C.test()))
+		}
+		fmt.Println(time.Since(t))
+	}
 
 	fmt.Println()
 
@@ -77,7 +87,7 @@ func main() {
 	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 200000; i++ {
-			sl.GetGE(int(C.test()))
+			sl.GetK(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
@@ -86,7 +96,7 @@ func main() {
 	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 300000; i++ {
-			sl.GetGE(int(C.test()))
+			sl.GetK(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
@@ -95,7 +105,7 @@ func main() {
 	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 400000; i++ {
-			sl.GetGE(int(C.test()))
+			sl.GetK(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
@@ -104,7 +114,7 @@ func main() {
 	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 400000; i++ {
-			sl.GetGE(int(C.test()))
+			sl.GetK(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
