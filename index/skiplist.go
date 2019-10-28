@@ -146,7 +146,7 @@ func (skipList *SkipList) GetK(key interface{}) *Element {
 		}
 	}
 
-	if next != nil && skipList.keyFunc.Compare(next.key, key) <= 0 {
+	if next != nil && skipList.keyFunc.Compare(next.key, key) == 0 {
 		return next
 	}
 
@@ -161,6 +161,14 @@ func (skipList *SkipList) GetV(key interface{}) (interface{}, bool) {
 	return nil, false
 }
 
+func (skipList *SkipList) Contains(key interface{}) bool {
+	element := skipList.GetK(key)
+	if element == nil {
+		return false
+	}
+    return true
+}
+
 func (skipList *SkipList) Del(key interface{}) *Element {
 
 	prevs := skipList.findPreElements(key)
@@ -168,7 +176,7 @@ func (skipList *SkipList) Del(key interface{}) *Element {
 		return nil
 	}
 
-	if element := prevs[0].next[0]; element != nil && skipList.keyFunc.Compare(element.key, key) <= 0 {
+	if element := prevs[0].next[0]; element != nil && skipList.keyFunc.Compare(element.key, key) == 0 {
 		for k, v := range element.next {
 			prevs[k].next[k] = v
 		}

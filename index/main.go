@@ -24,6 +24,7 @@ import "C"
 
 
 func main() {
+	fmt.Printf("%d, %d\n", 0x3FFF, 0xFFF)
 	// fmt.Println(C.test())
 	var Int Func = func(a, b interface{}) int {
 		if a.(int) > b.(int) {
@@ -41,15 +42,25 @@ func main() {
 		//	fmt.Println(sl.level)
 	}
 	fmt.Println(time.Since(t1))
-    //fmt.Println(sl.GetGE(10000))
+    fmt.Println(sl.GetGE(10000))
 	//for sl.HasNext() {
 	//	fmt.Printf("%d ", sl.Next())
 	//}
 	//fmt.Println()
+
+	//fmt.Println(sl.GetK(4))
+	//fmt.Println(sl.GetK(72))
+	//fmt.Println(sl.GetK(37))
+	//
+	//fmt.Println(sl.Contains(37))
+	//fmt.Println(sl.Contains(69))
+	//fmt.Println(sl.Contains(1111))
+	//
 	//
 	//fmt.Println(sl.GetGE(46))
 	//sl.Del(46)
 	//sl.Del(77)
+	//fmt.Println(sl.Contains(46))
 	//fmt.Println(sl.GetGE(46))
 	//fmt.Println(sl.GetGE(77))
 	//fmt.Println(sl.GetGE(78))
@@ -118,15 +129,15 @@ func main() {
 	//for i, v := range s {
 	//	fmt.Println(i, v.next)
 	//}
-	fmt.Println(sl.GetK(3))
-	fmt.Println(sl.Del(3))
-	fmt.Println(sl.GetK(4))
-	fmt.Println(sl.GetV(4))
-	c := 0
-	for sl.HasNext() {
-		fmt.Printf("%d ",sl.Next())
-		c++
-	}
-	fmt.Println()
-	fmt.Println(c)
+	//fmt.Println(sl.GetK(3))
+	//fmt.Println(sl.Del(3))
+	//fmt.Println(sl.GetK(4))
+	//fmt.Println(sl.GetV(4))
+	//c := 0
+	//for sl.HasNext() {
+	//	fmt.Printf("%d ",sl.Next())
+	//	c++
+	//}
+	//fmt.Println()
+	//fmt.Println(c)
 }
