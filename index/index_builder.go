@@ -1,5 +1,5 @@
-package index
+package main
 
-type IndexBuilder interface {
-	build() Index
-}
+//type IndexBuilder interface {
+//	build() Index
+//}

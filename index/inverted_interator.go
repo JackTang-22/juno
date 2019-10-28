@@ -1,7 +1,7 @@
-package index
+package main
 
 type InvertedIterator interface {
 	HasNext() bool
-	Next() DocId
-	GetGE(id DocId) DocId
+	Next() interface{}
+	GetGE(key interface{}) interface{}
 }

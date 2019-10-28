@@ -1,4 +1,4 @@
-package index
+package main
 
 type DocId uint64
 type FieldType int64
