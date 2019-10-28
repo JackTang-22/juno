@@ -185,7 +185,7 @@ type SkipListIterator struct {
 }
 
 func NewSKipListIterator(level int, keyFunc Comparable) *SkipListIterator {
-	if level <= 0 && level > DEFAULT_MAX_LEVEL {
+	if level <= 0 || level > DEFAULT_MAX_LEVEL {
 		level = DEFAULT_MAX_LEVEL
 	}
 	return &SkipListIterator{
@@ -236,7 +236,7 @@ func (slIterator *SkipListIterator) GetGE(key interface{}) interface{} {
 				prev = &prev.next[i].elementNode
 				continue
 			} else {
-				i--
+			//	i--
 				break
 			}
 		}
