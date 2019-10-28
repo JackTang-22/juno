@@ -10,6 +10,9 @@ import (
 int test() {
     return rand() % (50000000 - 0 + 1) + 0;
 }
+int test1() {
+	return rand() % (10000000 - 0 + 1) + 0;
+}
 */
 import "C"
 
@@ -28,7 +31,7 @@ func (skipList *SkipList) PrintSkipList() {
 		node := skipList.elementNode.next[i]
 		for {
 			if node != nil {
-				fmt.Printf("%d ", node.value)
+				fmt.Printf("%d ", node.key)
 				node = node.next[i]
 			} else {
 				break
@@ -39,7 +42,6 @@ func (skipList *SkipList) PrintSkipList() {
 
 	fmt.Println("Current MaxLevel:", skipList.level)
 }
-
 
 func main() {
 	// fmt.Println(C.test())
@@ -59,71 +61,71 @@ func main() {
 		//	fmt.Println(sl.level)
 	}
 	fmt.Println(time.Since(t1))
-	//fmt.Println(sl.GetGE(3))
-	fmt.Println(sl.Del(3))
-	fmt.Println(sl.GetK(5))
-	fmt.Println(sl.GetV(5))
-	//fmt.Println(sl.GetGE(3))
-	//fmt.Println(sl)
-	//c := 0
-	//for sl.HasNext() {
-	//	fmt.Println(sl.Next())
-	//	//c++
-	//}
-	//fmt.Println(c)
+    fmt.Println(sl.GetGE(10000))
 
-	//sl.PrintSkipList()
-	//fmt.Println(sl.Len())
-	for i:= 0; i < 10; i++ {
+	fmt.Println()
+
+	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 100000; i++ {
-			sl.GetGE(i)
+			sl.GetK(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
 
 	fmt.Println()
-
-	for i:= 0; i < 10; i++ {
+	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 200000; i++ {
-			sl.GetGE(i)
+			sl.GetGE(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
 
 	fmt.Println()
-
-	for i:= 0; i < 10; i++ {
+	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 300000; i++ {
-			sl.GetGE(i)
+			sl.GetGE(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
 
 	fmt.Println()
-
-	for i:= 0; i < 10; i++ {
+	for j := 0; j < 10; j++ {
 		t := time.Now()
 		for i := 0; i < 400000; i++ {
-			sl.GetGE(i)
+			sl.GetGE(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
 
 	fmt.Println()
-
-	for i:= 0; i < 10; i++ {
+	for j := 0; j < 10; j++ {
 		t := time.Now()
-		for i := 0; i < 500000; i++ {
-			sl.GetGE(i)
+		for i := 0; i < 400000; i++ {
+			sl.GetGE(int(C.test()))
 		}
 		fmt.Println(time.Since(t))
 	}
-	//for i := 0; i < 10; i++ {
-	//	//fmt.Println(sl.randLevel())
-	//	fmt.Println((rand.Int63() >> 32) & 0xFFFF)
+
+	//fmt.Println()
+	//fmt.Println(sl.Len())
+	//s := sl.findElements(3)
+	//for i, v := range s {
+	//	fmt.Println(i, v.next)
 	//}
+	//fmt.Println(sl.GetK(3))
+	//fmt.Println(sl.Del(3))
+	//fmt.Println(sl.GetK(4))
+	//fmt.Println(sl.GetV(4))
+	//c := 0
+	//for sl.HasNext() {
+	//	fmt.Printf("%d ",sl.Next())
+	//	c++
+	//}
+	//fmt.Println()
+	//fmt.Println(c)
+
 
 }

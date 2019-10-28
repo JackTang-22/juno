@@ -15,7 +15,7 @@ type elementNode struct {
 }
 
 type Element struct {
-	*elementNode
+	elementNode
 	key, value interface{}
 	score      float64
 }
@@ -85,7 +85,7 @@ func (skipList *SkipList) randLevel() int {
 	return l
 }
 
-func (skipList *SkipList) findElements(key interface{}) []*elementNode {
+func (skipList *SkipList) findPreElements(key interface{}) []*elementNode {
 	prev := &skipList.elementNode
 	var next *Element
 
@@ -94,40 +94,32 @@ func (skipList *SkipList) findElements(key interface{}) []*elementNode {
 	for i := skipList.level - 1; i >= 0; i-- {
 		next = prev.next[i]
 
-		//for next != nil && next.key.(int) < key.(int) {
-		//	prev = next.elementNode
-		//	next = next.next[i]
-		//}
 		for next != nil && skipList.keyFunc.Compare(next.key, key) < 0 {
-			prev = next.elementNode
+			prev = &next.elementNode
 			next = next.next[i]
 		}
 
 		prevs[i] = prev
 	}
+
 	return prevs
 }
 
 func (skipList *SkipList) Add(key, value interface{}) *Element {
 	var element *Element
 
-	prevs := skipList.findElements(key)
+	prevs := skipList.findPreElements(key)
 
-	//if element = prevs[0].next[0]; element != nil && element.key.(int) == key.(int) {
-	//	element.value = value
-	//	return element
-	//}
-	if element = prevs[0].next[0]; element != nil && skipList.keyFunc.Compare(element.key, key) < 0 {
+	if element = prevs[0].next[0]; element != nil && skipList.keyFunc.Compare(element.key, key) <= 0 {
 		element.value = value
 		return element
 	}
 
 	element = &Element{
-		elementNode: &elementNode{
+		elementNode: elementNode{
 			next: make([]*Element, skipList.randLevel()),
 		},
-		key: key,
-		//score: score,
+		key:   key,
 		value: value,
 	}
 	// fmt.Println(skipList.level)
@@ -142,10 +134,22 @@ func (skipList *SkipList) Add(key, value interface{}) *Element {
 }
 
 func (skipList *SkipList) GetK(key interface{}) *Element {
-	res := skipList.findElements(key)
-	if res != nil {
-		return res[0].next[0]
+	prev := &skipList.elementNode
+	var next *Element
+
+	for i := skipList.level - 1; i >= 0; i-- {
+		next = prev.next[i]
+
+		for next != nil && skipList.keyFunc.Compare(next.key, key) < 0 {
+			prev = &next.elementNode
+			next = next.next[i]
+		}
 	}
+
+	if next != nil && skipList.keyFunc.Compare(next.key, key) <= 0 {
+		return next
+	}
+
 	return nil
 }
 
@@ -159,20 +163,12 @@ func (skipList *SkipList) GetV(key interface{}) (interface{}, bool) {
 
 func (skipList *SkipList) Del(key interface{}) *Element {
 
-	prevs := skipList.findElements(key)
+	prevs := skipList.findPreElements(key)
 	if prevs == nil {
 		return nil
 	}
 
-	//if element := prevs[0].next[0]; element != nil && !(element.key.(int) < key.(int)) {
-	//	for k, v := range element.next {
-	//		prevs[k].next[k] = v
-	//	}
-	//	skipList.length--
-	//	return element
-	//}
-
-	if element := prevs[0].next[0]; element != nil && skipList.keyFunc.Compare(element.key, key) != 0 {
+	if element := prevs[0].next[0]; element != nil && skipList.keyFunc.Compare(element.key, key) <= 0 {
 		for k, v := range element.next {
 			prevs[k].next[k] = v
 		}
@@ -225,40 +221,33 @@ func (slIterator *SkipListIterator) Next() interface{} {
 }
 
 func (slIterator *SkipListIterator) GetGE(key interface{}) interface{} {
-	prevs := slIterator.findElements(key)
-	if prevs != nil {
-		return prevs[0].next[0].value
-	}
-	prev := slIterator.elementNode
+
+	prev := &slIterator.elementNode
 	for i := slIterator.level - 1; i >= 0; i-- {
 		for {
-			if prev.next[i].value == nil {
+			if prev.next == nil || prev.next[i] == nil || prev.next[i].key == nil {
 				break
 			}
-			if prev.next[i].key.(int) == key {
+			if slIterator.keyFunc.Compare(prev.next[i].key, key) == 0 {
 				return prev.next[i].value
 			}
-			//if prev.next[i].key.(int) < key.(int) {
-			//	prev = *prev.next[i].elementNode
-			//	continue
+
 			if slIterator.keyFunc.Compare(prev.next[i].key, key) < 0 {
-				prev = *prev.next[i].elementNode
+				prev = &prev.next[i].elementNode
 				continue
 			} else {
-				slIterator.level--
+				i--
 				break
 			}
 		}
 	}
 	for {
-		if prev.next[0] == nil {
+		if prev.next == nil || prev.next[0] == nil {
 			return nil
-			//} else if prev.next[0].key.(int) < key.(int) {
-			//	prev = *prev.next[0].elementNode
 		} else if slIterator.keyFunc.Compare(prev.next[0].key, key) < 0 {
-			prev = *prev.next[0].elementNode
+			prev = &prev.next[0].elementNode
 		} else {
-			return prev
+			return prev.next[0].value
 		}
 	}
 }
@@ -268,4 +257,3 @@ type Func func(a, b interface{}) int
 func (f Func) Compare(a, b interface{}) int {
 	return f(a, b)
 }
-
